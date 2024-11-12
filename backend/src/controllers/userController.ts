@@ -9,13 +9,15 @@ export const registerUser = async (req: Request, res: Response) => {
     const { name, email, password, username } = req.body;
 
     try {
-        const newUser = new User({ name, email, password, username });
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create a new user instance with the hashed password
+        const newUser = new User({ name, email, password: hashedPassword, username });
         await newUser.save();
-        res.status(201)
-            .json({ message: 'User registered successfully', user: newUser });
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {
-        res.status(400)
-            .json({ message: 'Error registering user', error });
+        res.status(400).json({ message: 'Error registering user', error });
     }
 };
 
@@ -31,7 +33,8 @@ export const login = async (req: Request, res: Response) => {
         }
 
         // Compare provided password with the hashed password
-        const isPasswordValid = await user.comparePassword(password);
+
+        const isPasswordValid = await user.comparePasswords(password);
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
