@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRouter from './routes/userRoutes';
+import channelRouter from './routes/channelRoutes';
 
 const morgan = require('morgan');
 const cors = require('cors');
@@ -29,6 +30,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/user', userRouter);
+app.use('/channel',channelRouter)
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

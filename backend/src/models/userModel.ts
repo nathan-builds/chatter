@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 
-interface IUser extends Document {
+export interface IUser extends Document {
     email: string;
     password: string;
     name: string,
     username: string
-    comparePassword: (candidatePassword: string) => Promise<boolean>;
+    comparePasswords: (candidatePassword: string) => Promise<boolean>;
 }
 
 
@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema<IUser>({
 });
 
 userSchema.methods.comparePasswords = async function (candidatePassword: string) {
+    console.log('Password:', candidatePassword, this.password)
     return bcrypt.compare(candidatePassword, this.password);
 };
 
