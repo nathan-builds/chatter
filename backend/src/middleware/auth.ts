@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { AppError } from '../appError';
 
 const secretKey = 'your_secret_key'; // Replace with your secret key or move to environment variable
 
@@ -16,12 +17,12 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     try {
         const decoded = jwt.verify(token, secretKey);
         if (!decoded) {
-            return res.status(403).json({ message: 'Invalid or expired token' });
+            return next(new AppError('Invalid or expired token', 403))
         }
 
         req.body.user = decoded;
         next();
     } catch (error) {
-        return res.status(403).json({ message: 'Invalid or expired token' });
+        return next(new AppError('Invalid or expired token', 403))
     }
 };
