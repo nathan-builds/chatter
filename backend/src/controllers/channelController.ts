@@ -12,6 +12,7 @@ export const createChannel = async (req: Request, res: Response, next: NextFunct
 
     const createdByUser = await User.findById(createdBy);
     if (!createdByUser) {
+
         return next(new AppError('User not found', 404));
     }
     try {
@@ -36,4 +37,5 @@ export const getAllMessages = async (req: Request, res: Response, next: NextFunc
     } catch (error: any) {
         return new AppError(error.message, 500);
     }
-}
+};
+

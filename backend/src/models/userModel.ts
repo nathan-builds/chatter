@@ -6,7 +6,8 @@ export interface IUser extends Document {
     email: string;
     password: string;
     name: string,
-    username: string
+    username: string,
+    channels: mongoose.Schema.Types.ObjectId[],
     comparePasswords: (candidatePassword: string) => Promise<boolean>;
 }
 
@@ -29,15 +30,14 @@ const userSchema = new mongoose.Schema<IUser>({
         required: true,
         unique: true
     },
-    channels:{
-        type: mongoose.Schema.Types.ObjectId[],
-        ref: 'Channel'
-
+    channels: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Channel',
+        required: false
     }
 });
 
 userSchema.methods.comparePasswords = async function (candidatePassword: string) {
-    console.log('Password:', candidatePassword, this.password)
     return bcrypt.compare(candidatePassword, this.password);
 };
 
