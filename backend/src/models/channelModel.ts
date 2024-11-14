@@ -5,6 +5,7 @@ export interface IChannel {
     _id: string,
     name: string,
     channelHash: string,
+    isPrivate: boolean,
     createdBy: mongoose.Schema.Types.ObjectId,
     users: mongoose.Schema.Types.ObjectId[]
 }
@@ -23,6 +24,10 @@ const channelSchema = new mongoose.Schema<IChannel>({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        required: true
+    },
+    isPrivate: {
+        type: Boolean,
         required: true
     },
     users: [

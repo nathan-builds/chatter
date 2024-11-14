@@ -1,8 +1,9 @@
 import express from 'express';
-import { registerUser, login } from '../controllers/userController';
+import { sendMessage } from '../controllers/msgController';
 
 const router = express.Router();
 
-router.post('/send',)
+router.post('/send', sendMessage);
+
 
 export default router;

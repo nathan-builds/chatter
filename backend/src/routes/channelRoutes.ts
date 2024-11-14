@@ -1,8 +1,9 @@
 import express from 'express';
-import { createChannel } from '../controllers/channelController';
+import { createChannel, getAllMessages } from '../controllers/channelController';
 
 const router = express.Router();
 
 router.post('/create', createChannel);
+router.get('/messages/:channelId',getAllMessages)
 
 export default router;

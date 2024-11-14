@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema<IUser>({
         type: String,
         required: true,
         unique: true
+    },
+    channels:{
+        type: mongoose.Schema.Types.ObjectId[],
+        ref: 'Channel'
+
     }
 });
 
