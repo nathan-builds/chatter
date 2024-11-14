@@ -35,6 +35,9 @@ app.use('/user', userRouter);
 app.use('/channel', channelRouter);
 app.use('/message', messageRouter);
 
+/**
+ * For handling errors
+ */
 app.use((error: AppError, req: Request, res: Response, next: NextFunction) => {
     res.status(error.statusCode).json({
         status: error.statusCode,
