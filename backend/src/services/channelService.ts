@@ -20,14 +20,8 @@ export const checkCreateChannel = async (
             return true;
         }
 
-        const newChannel = new Channel({
-            isPrivate,
-            channelHash: hashKey,
-            createdBy,
-            users: userIds
-        });
-
-        const res = await newChannel.save();
+        //this is a new channel, create it
+        createNewChannel(userIds, createdBy, isPrivate, hashKey);
 
 
     } catch (e) {
@@ -38,6 +32,25 @@ export const checkCreateChannel = async (
 };
 
 
+const createNewChannel = async (userIds: string[], createdBy: string, isPrivate: boolean, hashKey: string) => {
+
+    const newChannel = new Channel({
+        isPrivate,
+        channelHash: hashKey,
+        createdBy,
+        users: userIds
+    });
+
+    const res = await newChannel.save();
+
+    //now update all users with the new channel, addToSet avoids duplicates
+    await Promise.all(userIds.map(async (userId) => {
+        await User.findByIdAndUpdate(userId, {
+            $addToSet: { channels: res._id }
+        });
+    }));
+
+};
 
 
 const getAllUserChannels = async (userId: string) => {
