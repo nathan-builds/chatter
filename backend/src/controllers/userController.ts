@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import User from '../models/userModel';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { AppError } from '../appError';
 
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -53,3 +54,28 @@ export const login = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+
+export const getUserChannels = async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+
+    if (!userId) {
+        return next(new AppError('No user id', 500));
+    }
+    try {
+
+        const user = await User.findById(userId).populate('channels');
+        if (!user) {
+            return next(new AppError('Could not find user', 400));
+        }
+
+        return res.status(200).json({
+            user
+        });
+    } catch (e: any) {
+        return next(new AppError(e.message, 400));
+    }
+};
+
+
+

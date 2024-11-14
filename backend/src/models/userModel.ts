@@ -32,8 +32,8 @@ const userSchema = new mongoose.Schema<IUser>({
     },
     channels: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Channel'
-
+        ref: 'Channel',
+        required: false
     }
 });
 

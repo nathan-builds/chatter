@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post('/create', createChannel);
 router.get('/messages/:channelId',getAllMessages)
+router.get('/')
 
 export default router;

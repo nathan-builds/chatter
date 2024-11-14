@@ -1,6 +1,8 @@
 import Channel, { IChannel } from '../models/channelModel';
 import { createHash } from 'node:crypto';
 import User from '../models/userModel';
+import { Request, Response } from 'express';
+import { AppError } from '../appError';
 
 export const checkCreateChannel = async (
     userIds: string[],
@@ -24,6 +26,7 @@ export const checkCreateChannel = async (
             createdBy,
             users: userIds
         });
+
         const res = await newChannel.save();
 
 
@@ -35,6 +38,14 @@ export const checkCreateChannel = async (
 };
 
 
+
+
+const getAllUserChannels = async (userId: string) => {
+    const userChannels = await User.findById(userId).populate('users');
+    if (!userChannels) {
+        console.log(`Could not find user channels for user id ${userId}`);
+    }
+};
 // const buildChannelName = async (userIds: string[], createdByUsername: string, isPrivate: boolean): Promise<string> => {
 //     const users = await User.find({ _id: { $in: userIds } });
 //     if (!users) {
@@ -51,5 +62,7 @@ export const checkCreateChannel = async (
 // };
 
 export default {
-    checkCreateChannel
+    checkCreateChannel,
+    getAllUserChannels
+
 };
