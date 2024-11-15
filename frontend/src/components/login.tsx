@@ -4,20 +4,20 @@ import { useState } from 'react';
 
 export const Login = () => {
 
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const queryClient = useQueryClient();
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log({ email, password });
+        console.log({ username, password });
         const loginMutation = useMutation({
             mutationFn: async () => {
-                const response = await fetch('/api/auth/login', {
+                const response = await fetch('http://localhost:3001/user/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({ username, password }),
                 });
 
                 if (!response.ok) {
@@ -56,9 +56,9 @@ export const Login = () => {
                 <CardContent>
                     <Stack gap={2}>
                         <TextField
-                            label="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            label="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             variant="outlined"
                             fullWidth
                         />
