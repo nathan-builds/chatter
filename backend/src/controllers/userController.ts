@@ -46,7 +46,11 @@ export const login = async (req: Request, res: Response) => {
             { expiresIn: '1h' } // Set expiration time
         );
 
-        res.status(200).json({ token });
+        res.status(200).json({
+            username,
+            id: user._id,
+            token
+        });
     } catch (error) {
 
         console.error('Sign-in error:', error);
@@ -54,6 +58,33 @@ export const login = async (req: Request, res: Response) => {
     }
 };
 
+
+export const getUserFriends = async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+
+    if (!userId) {
+        return next(new AppError('No user id', 500));
+    }
+    try {
+        const users = await User.find({ _id: { $ne: userId } });
+
+        if (!users) {
+            return next(new AppError('Could not find users', 400));
+        }
+
+        const readableUsers = users.map((user) => ({
+            id: user._id,
+            username: user.username,
+            name: user.name
+        }));
+
+        return res.status(200).json({
+            users: readableUsers
+        });
+    } catch (e: any) {
+        return next(new AppError(e.message, 400));
+    }
+}
 
 export const getUserChannels = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.params;
