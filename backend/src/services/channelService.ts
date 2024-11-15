@@ -1,14 +1,14 @@
 import Channel, { IChannel } from '../models/channelModel';
 import { createHash } from 'node:crypto';
 import User from '../models/userModel';
-import { Request, Response } from 'express';
-import { AppError } from '../appError';
 
 export const checkCreateChannel = async (
     userIds: string[],
     createdBy: string,
     isPrivate: boolean): Promise<boolean> => {
 
+    //add the user who created it
+    userIds.push(createdBy);
     userIds.sort();
     const hashKey = createHash('sha256')
         .update(userIds.join(','))
