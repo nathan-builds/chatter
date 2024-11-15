@@ -32,7 +32,7 @@ export const SignUp = () => {
             });
 
             if (response.ok) {
-                navigate('/login');
+                navigate('/chat');
             } else {
                 const data = await response.json();
                 setError(data.message || 'Sign up failed');
