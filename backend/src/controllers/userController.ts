@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import e, { NextFunction, Request, Response } from 'express';
 import User from '../models/userModel';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -7,6 +7,7 @@ import { AppError } from '../appError';
 
 export const registerUser = async (req: Request, res: Response) => {
     const { name, email, password, username } = req.body;
+    console.log(req.body);
 
     try {
         // Hash the password
@@ -17,6 +18,7 @@ export const registerUser = async (req: Request, res: Response) => {
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {
+        console.log(error)
         res.status(400).json({ message: 'Error registering user', error });
     }
 };
@@ -25,7 +27,7 @@ export const registerUser = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
 
-    try {
+    try { 
         // Find user by email
         const user = await User.findOne({ username });
         if (!user) {
