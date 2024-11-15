@@ -6,7 +6,7 @@ function App() {
 
     return (
         <>
-            <CssBaseline/>
+            <CssBaseline />
             <AppBar position="fixed">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -15,22 +15,33 @@ function App() {
                     <Button color="inherit" component={Link} to="/login">
                         Login
                     </Button>
+                    <Button color="inherit" component={Link} to="/chat">Chat</Button>
                 </Toolbar>
             </AppBar>
             <Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    minHeight: '100vh',
-                    mt: 8 // Offset for fixed AppBar height
+                    height: '100vh',
                 }}
             >
-                <Container component="main" sx={{ flexGrow: 1, py: 4 }}>
-                    <Outlet/>
+                <Container 
+                    component="main" 
+                    maxWidth={false}
+                    disableGutters
+                    sx={{ 
+                        display: 'flex',
+                        flexGrow: 1,
+                        height: 'calc(100vh - 64px)',
+                        mt: 8,
+                        p: 0,
+                        overflow: 'hidden',
+                        width: '100%',
+                        maxWidth: '100% !important',
+                    }}
+                >
+                    <Outlet />
                 </Container>
-                {/*<Box component="footer" sx={{ py: 2, textAlign: 'center', bgcolor: 'grey.200' }}>*/}
-                {/*    <Typography variant="body2">© {new Date().getFullYear()} My App</Typography>*/}
-                {/*</Box>*/}
             </Box>
         </>
     );

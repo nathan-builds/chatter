@@ -6,7 +6,6 @@ import { AppError } from '../appError';
 
 
 export const registerUser = async (req: Request, res: Response) => {
-    console.log('registering user');
     const { name, email, password, username } = req.body;
 
     try {
