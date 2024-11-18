@@ -23,7 +23,7 @@ export const SignUp = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/auth/signup', {
+            const response = await fetch('http://localhost:3001/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const SignUp = () => {
             });
 
             if (response.ok) {
-                navigate('/login');
+                navigate('/chat');
             } else {
                 const data = await response.json();
                 setError(data.message || 'Sign up failed');
@@ -117,6 +117,9 @@ export const SignUp = () => {
                     </Button>
                 </Box>
             </Box>
+            {
+                error && <div> Issue with sign up: {error}</div>
+            }
         </Container>
     );
 }
