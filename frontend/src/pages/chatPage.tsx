@@ -3,10 +3,13 @@ import { ChatList } from "../components/chatList"
 import { ActiveChat } from "../components/activeChat"
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { useState } from "react";
+import { useChat } from "../../context/chatContext";
 
 export const ChatPage = () => {
 
     const { isAuthenticated } = useAuth();
+    const { activeChatId, setActiveChatId } = useChat();
 
     if (!isAuthenticated) {
         return <Navigate to="/login" />;
@@ -27,7 +30,7 @@ export const ChatPage = () => {
                 maxWidth: '100% !important',
             }}
         >
-            <ChatList />
+            <ChatList  />
             <ActiveChat />
         </Container>
     )

@@ -1,16 +1,21 @@
 import { Avatar, ListItem, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material"
-const chatName = 'Chat Name'
-const message = 'Message'
+import { useChat } from "../../context/chatContext";
 
-export const Chat = () => {
+export interface Channel {
+    id: string;
+    name: string;
+}
+
+export const Chat = ({ channel }: { channel: Channel }) => {
+    const { setActiveChatId } = useChat();
     return (
-        <ListItemButton alignItems="flex-start">
+        <ListItemButton alignItems="flex-start" onClick={() => setActiveChatId(channel.id)}>
             <ListItemAvatar>
                 <Avatar></Avatar>
             </ListItemAvatar>
             <ListItemText
-                primary={chatName}
-                secondary={message}
+                primary={channel.name}
+                secondary={'Test Message'}
                 sx={{
                     wordBreak: 'break-word'
                 }}

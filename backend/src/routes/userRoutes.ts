@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/register', registerUser);
 router.post('/login', login);
-router.get('/channels:/userId', getUserChannels);
+router.get('/channels/:userId', getUserChannels);
 router.get('/friends/:userId', getUserFriends);
 
 

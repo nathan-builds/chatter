@@ -7,10 +7,12 @@ import User from '../models/userModel';
 export const sendMessage = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { message, sender, dstChannelId } = req.body;
+        console.log(req.body);
 
         const [channel, senderUser] = await Promise.all([
             Channel.findById(dstChannelId),
             User.findById(sender)]);
+        console.log(channel, senderUser);
 
         // check if the channel exists
         if (!channel || !senderUser) {

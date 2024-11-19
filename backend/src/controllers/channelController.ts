@@ -6,6 +6,8 @@ import Message from '../models/msgModel';
 
 export const createChannel = async (req: Request, res: Response, next: NextFunction) => {
     const { createdBy, users, isPrivate } = req.body;
+    console.log('creating channel', req.body);
+
     if (!createdBy || !users || !isPrivate) {
         return next(new AppError('Invalid request for channel creation', 400));
     }
@@ -32,7 +34,7 @@ export const createChannel = async (req: Request, res: Response, next: NextFunct
 export const getAllMessages = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { channelId } = req.params;
-        const messages = await Message.find({ dstChannelId: channelId });
+        const messages = await Message.find({ dstChannelId: channelId }).sort({ createdAt: 'asc' });
         res.status(200).json(messages);
     } catch (error: any) {
         return new AppError(error.message, 500);

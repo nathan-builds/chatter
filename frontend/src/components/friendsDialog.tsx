@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../../context/authContext';
 import { Navigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
@@ -19,8 +19,13 @@ interface Friend {
     // add other friend properties you need
 }
 
-export const FriendsDialog = ({ open, onClose }: { open: boolean, onClose: () => void }) => {
-    const queryClient = useQueryClient();
+interface FriendsDialogProps {
+    open: boolean;
+    onClose: () => void;
+    onFriendSelected: (friendId: string) => void;
+}
+
+export const FriendsDialog = ({ open, onClose, onFriendSelected }: FriendsDialogProps) => {
     const auth = useAuth();
 
     if (!auth.user) {
@@ -43,9 +48,9 @@ export const FriendsDialog = ({ open, onClose }: { open: boolean, onClose: () =>
     });
 
     return (
-        <Dialog 
-            open={open} 
-            onClose={onClose} 
+        <Dialog
+            open={open}
+            onClose={onClose}
             PaperProps={{
                 sx: { width: '50%', maxWidth: '800px' }
             }}
@@ -58,10 +63,12 @@ export const FriendsDialog = ({ open, onClose }: { open: boolean, onClose: () =>
                     <List>
                         {friends.map((friend) => (
                             <ListItem key={friend.id} disablePadding>
-                                <Avatar  />
+                                <Avatar />
                                 <ListItemButton onClick={() => {
                                     // Handle friend selection here
                                     console.log('Selected friend:', friend);
+                                    onFriendSelected(friend.id);
+                                    // onFriendSelected(friend.id);
                                     onClose();
                                 }}>
                                     <ListItemText
