@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 // Log incoming requests
 export const logRequest = (req: Request, res: Response, next: NextFunction) => {
     const timestamp = new Date().toISOString();
+    console.error(`[Error] ${err.stack}`);
     console.log(`[${timestamp}] ${req.method} ${req.url}`);
     console.log('Headers:', req.headers);
     console.log('Body:', req.body);
@@ -12,6 +13,8 @@ export const logRequest = (req: Request, res: Response, next: NextFunction) => {
 // Log response time
 export const logResponseTime = (req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
+     console.log(`[${timestamp}] ${req.method} ${req.url}`);
+    console.log('Headers:', req.headers);
     res.on('finish', () => {
         const duration = Date.now() - start;
         console.log(`Request to ${req.url} took ${duration}ms`);
@@ -27,6 +30,7 @@ export const logError = (err: Error, req: Request, res: Response, next: NextFunc
 
 // Log API endpoints accessed
 export const logEndpoint = (req: Request, res: Response, next: NextFunction) => {
+    const start = Date.now();
     const { method, originalUrl, ip } = req;
     console.log(`[API Access] Method: ${method}, URL: ${originalUrl}, IP: ${ip}`);
     next();
