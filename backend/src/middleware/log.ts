@@ -45,9 +45,21 @@ export const logError = (err: Error, req: Request, res: Response, next: NextFunc
     console.error(`[Error] ${err.stack}`);
     next(err);
 };
+export const logNewError = (err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error(`[Error] ${err.stack}`);
+    next(err);
+};
 
 // Log API endpoints accessed
 export const logEndpoint = (req: Request, res: Response, next: NextFunction) => {
+    const start = Date.now();
+    const { method, originalUrl, ip } = req;
+    console.log(`[API Access] Method: ${method}, URL: ${originalUrl}, IP: ${ip}`);
+    next();
+};
+
+// Log API endpoints accessed
+export const logEndpointAgain = (req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
     const { method, originalUrl, ip } = req;
     console.log(`[API Access] Method: ${method}, URL: ${originalUrl}, IP: ${ip}`);
