@@ -35,6 +35,11 @@ export const updateFutureData = async (req: Request, res: Response) => {
 export const deleteFutureEntry = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
+        const deletedEntry = {
+            message: "Future entry deleted",
+            id: id
+        };
+        return res.status(200).json(deletedEntry);  
 
     } catch (error) {
         return res.status(500).json({ error: "Failed to delete future entry" });
@@ -43,13 +48,20 @@ export const deleteFutureEntry = async (req: Request, res: Response) => {
 
 export const getFutureStats = async (req: Request, res: Response) => {
     try {
-        const stats = {
+        const amazeStats = {
             totalEntries: 100,
             lastUpdated: new Date().toISOString(),
+            message: "Future stats retrieved successfully",
             part:12
+
         };
-        return res.status(200).json(stats);
+
+        console.log(amazeStats);
+        amazeStats.message = "Future stats retrieved successfully";
+        console.log(amazeStats);
+        return res.status(200).json(amazeStats);
     } catch (error) {
         return res.status(500).json({ error: "Failed to get future stats" });
     }
 };
+
