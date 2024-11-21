@@ -1,0 +1,22 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node index.ts",
+    "start-consumer": "ts-node consumer.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/amqplib": "^0.10.5",
+    "@types/node": "^22.9.1",
+    "@types/ws": "^8.5.13",
+    "amqplib": "^0.10.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "ws": "^8.18.0"
+  }
+}

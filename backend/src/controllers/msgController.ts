@@ -3,6 +3,9 @@ import { NextFunction, Request, Response } from 'express';
 import Channel from '../models/channelModel';
 import { AppError } from '../appError';
 import User from '../models/userModel';
+import { MessageService } from '../services/messageService';
+
+const messageService = new MessageService();
 
 export const sendMessage = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -22,6 +25,9 @@ export const sendMessage = async (req: Request, res: Response, next: NextFunctio
         // we can now create a new message and save it
         const newMsg = new Message({ message, sender, dstChannelId });
         await newMsg.save();
+
+        // send the message to the exchange where the notify service is listening to alert the client
+        messageService.sendMessage(message, dstChannelId, sender);
 
         res.status(201).json(newMsg);
     } catch (error: any) {

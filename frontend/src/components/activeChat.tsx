@@ -12,7 +12,7 @@ export const ActiveChat = () => {
 
     const auth = useAuth();
     const queryClient = useQueryClient();
-    const { activeChatId } = useChat();                 
+    const { activeChatId } = useChat();
     const [message, setMessage] = useState("");
     const { data, isLoading, error } = useQuery({
         queryKey: ['messages', activeChatId],
@@ -40,9 +40,9 @@ export const ActiveChat = () => {
             return response.json();
         },
         onSuccess: (newMessage) => {
-            queryClient.setQueryData(['messages', activeChatId], (oldData: any) => {
-                return [...(oldData || []), newMessage];
-            });
+            // queryClient.setQueryData(['messages', activeChatId], (oldData: any) => {
+            //     return [...(oldData || []), newMessage];
+            // });
             setMessage("");
         },
     });
@@ -56,8 +56,8 @@ export const ActiveChat = () => {
     return (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div style={{ flex: 1, flexDirection: 'column', padding: '10px', overflowY: 'auto' }}>
-                {data?.map((msg: any) => (
-                    <ChatMessage message={msg.message} senderName={msg.senderName} isSender={msg.sender === auth.user?.id} />
+                {data?.map((msg: any, idx: number) => (
+                    <ChatMessage message={msg.message} senderName={msg.senderName} isSender={msg.sender === auth.user?.id} key={idx} />
                 ))}
 
             </div>

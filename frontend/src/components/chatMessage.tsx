@@ -1,3 +1,5 @@
+import { useAuth } from "../../context/authContext";
+
 export interface ChatMessageProps {
     message: string;
     senderName: string;
@@ -7,6 +9,7 @@ export interface ChatMessageProps {
 
 
 export const ChatMessage = (props: ChatMessageProps) => {
+
     return (
         <div style={{
             display: 'flex',

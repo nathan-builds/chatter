@@ -13,9 +13,10 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <AuthProvider>
-            <ChatProvider>
-                <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+                <ChatProvider>
+
                     <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<App />}>
@@ -24,8 +25,9 @@ createRoot(document.getElementById('root')!).render(
                             </Route>
                         </Routes>
                     </BrowserRouter>
-                </QueryClientProvider>
-            </ChatProvider>
-        </AuthProvider>
+
+                </ChatProvider>
+            </AuthProvider>
+        </QueryClientProvider>
     </StrictMode>
 );
