@@ -11,14 +11,32 @@ export const logRequest = (req: Request, res: Response, next: NextFunction) => {
 };
 
 // Log response time
-export const logResponseTime = (req: Request, res: Response, next: NextFunction) => {
+export const logMe = (req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
-     console.log(`[${timestamp}] ${req.method} ${req.url}`);
-    console.log('Headers:', req.headers);
+    const { method, url } = req;
+
+    // Add response time header
     res.on('finish', () => {
         const duration = Date.now() - start;
-        console.log(`Request to ${req.url} took ${duration}ms`);
+        const status = res.statusCode;
+
+        // Add response time header
+        res.setHeader('X-Response-Time', `${duration}ms`);
+
+        // Color status code based on range
+        const statusColor = status >= 500 ? '\x1b[31m' : // Red
+            status >= 400 ? '\x1b[33m' : // Yellow
+                status >= 300 ? '\x1b[36m' : // Cyan
+                    status >= 200 ? '\x1b[32m' : // Green
+                        '\x1b[0m';    // Default
+
+        console.log(
+            `${statusColor}${status}\x1b[0m`,
+            `${method} ${url}`,
+            `${duration}ms`
+        );
     });
+
     next();
 };
 
